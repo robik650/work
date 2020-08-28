@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 public class sphere : MonoBehaviour
 {
      Rigidbody rb;
-     public int y;
-     public int x;
+     public float y;
+     public float x;
      public GameObject sphera;
      public Transform sphera1;
      public Vector3 check1;
@@ -16,6 +17,7 @@ public class sphere : MonoBehaviour
      public Transform currpos;
      public GameObject path;
      public int counttap;
+     public Slider height, length;
 
     void Start()
     {    
@@ -43,13 +45,18 @@ public class sphere : MonoBehaviour
        sphera1.transform.position = new Vector3(transform.position.x, transform.position.y,transform.position.z);
        if(check1==check2&&check3==check1&&check3==check2&&check4==check1&&check4==check2&&check4==check3)
        startpos.transform.position =currpos.transform.position;
+       else 
+       StartCoroutine(Shooting());
+       
        if(counttap==2){
        currpos.transform.position = startpos.transform.position;
        GetComponent<Rigidbody>().drag = 1000;
        StartCoroutine(Drag());
        }
-   }
 
+       x=length.value;
+       y=height.value;
+   }
     IEnumerator Check1()
     {
        yield return new WaitForSeconds(0.11f);
@@ -72,9 +79,10 @@ public class sphere : MonoBehaviour
        StartCoroutine(Check4());
    }
    IEnumerator Shooting(){
-       yield return new WaitForSeconds(0.1f);
+       yield return new WaitForSeconds(0.001f);
        Instantiate(path,sphera1.transform.position,transform.rotation);
-       StartCoroutine(Shooting());
+      
+       
     }
      IEnumerator Tap(){
        yield return new WaitForSeconds(0.2f);
@@ -83,7 +91,7 @@ public class sphere : MonoBehaviour
     IEnumerator Drag()
     {
         yield return new WaitForSeconds(0.3f);
-      GetComponent<Rigidbody>().drag = 1;
+      GetComponent<Rigidbody>().drag = 0.33F;
     }
 }
 
